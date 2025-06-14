@@ -6,7 +6,7 @@ A modern and responsive website for Masthan Chicken Center, featuring an admin d
 
 ```
 masthan-chicken-center/
-├── mainpage.html          # Main customer-facing page
+├── index.html          # index customer-facing page
 ├── admin-login.html       # Admin login page
 ├── admin-dashboard.html   # Admin dashboard for price management
 ├── styles.css            # Global styles
