@@ -114,8 +114,8 @@ This project is licensed under the MIT License.
 ## Contact
 
 For any queries or support, please contact:
-- Email: [your-email]
-- Phone: [your-phone]
+- Email: akmalbaquar@gmail.com
+- Phone: +91 9490362478
 
 ## Future Enhancements
 
