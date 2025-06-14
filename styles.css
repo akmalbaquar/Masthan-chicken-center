@@ -96,8 +96,7 @@ header h1 {
 }
 
 nav {
-    background-color: var(--secondary-color);
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -111,7 +110,7 @@ nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 3.5rem;
+    gap: 2rem;
     margin: 0;
     padding: 0;
     max-width: 1200px;
@@ -120,17 +119,17 @@ nav ul {
 
 nav li {
     position: relative;
-    padding: 0.5rem 0;
+    padding: 0.3rem 0;
 }
 
 nav a {
-    color: var(--white);
+    color: var(--text-color);
     text-decoration: none;
     font-weight: 600;
-    padding: 0.5rem 1.2rem;
+    padding: 0.3rem 0.8rem;
     display: block;
     transition: var(--transition);
-    font-size: 1.1rem;
+    font-size: 1rem;
     letter-spacing: 0.5px;
     position: relative;
     overflow: hidden;
