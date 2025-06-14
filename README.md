@@ -6,7 +6,7 @@ A modern and responsive website for Masthan Brailour Poultry Traders, featuring 
 
 ```
 masthan-chicken-center/
-├── mainpage.html          # Main customer-facing page
+├── index.html          # index customer-facing page
 ├── admin-login.html       # Admin login page
 ├── admin-dashboard.html   # Admin dashboard for price management
 ├── styles.css            # Global styles
@@ -114,8 +114,8 @@ This project is licensed under the MIT License.
 ## Contact
 
 For any queries or support, please contact:
-- Email: [your-email]
-- Phone: [your-phone]
+- Email: akmalbaquar@gmail.com
+- Phone: +91 9490362478
 
 ## Future Enhancements
 
