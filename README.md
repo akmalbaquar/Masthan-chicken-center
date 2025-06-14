@@ -1,6 +1,6 @@
-# Masthan Chicken Center Website
+# Masthan Brailour Poultry Traders Website
 
-A modern and responsive website for Masthan Chicken Center, featuring an admin dashboard for price management.
+A modern and responsive website for Masthan Brailour Poultry Traders, featuring an admin dashboard for price management.
 
 ## Project Structure
 

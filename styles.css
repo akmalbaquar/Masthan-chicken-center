@@ -40,6 +40,10 @@ header {
     overflow: hidden;
     animation: gradientBG 15s ease infinite;
     background-size: 400% 400%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 @keyframes gradientBG {
@@ -71,6 +75,24 @@ header h1 {
     font-size: 2.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     letter-spacing: 1px;
+}
+
+.date-display {
+    background: var(--light-bg);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    margin: 1rem 0 2rem 0;
+}
+
+.date-display:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 nav {
@@ -184,6 +206,7 @@ nav a:hover::before {
     font-size: 1.3rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     padding: 0 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .prices {
@@ -195,7 +218,7 @@ nav a:hover::before {
 .prices h2 {
     font-size: 2.5rem;
     color: var(--text-color);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     position: relative;
     display: inline-block;
     transition: var(--transition);
@@ -461,6 +484,46 @@ footer::before {
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        padding: 0.3rem 0.8rem;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-brand a {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .nav-links {
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links a {
+        font-size: 0.85rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .admin-header {
+        padding: 0.3rem 0.8rem;
+        height: 40px;
+    }
+
+    .admin-header h1 {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .logout-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.85rem;
+        height: 28px;
+    }
+
     nav {
         padding: 0.8rem 1rem;
         position: fixed;
@@ -510,13 +573,11 @@ footer::before {
     }
 
     .hero h2 {
-        font-size: 2rem;
-        padding: 0 1rem;
+        font-size: 2.2rem;
     }
 
     .hero p {
         font-size: 1.1rem;
-        padding: 0 1rem;
     }
 
     .prices, .features, .contact {
@@ -566,6 +627,12 @@ footer::before {
     .section-title {
         font-size: 2rem;
         margin-bottom: 1.5rem;
+    }
+
+    .date-display {
+        font-size: 1.1rem;
+        padding: 0.6rem 1.2rem;
+        margin: 0.75rem 0 1.5rem 0;
     }
 }
 
@@ -622,6 +689,11 @@ footer::before {
         width: 35px;
         height: 35px;
         font-size: 1rem;
+    }
+
+    .date-display {
+        font-size: 1rem;
+        padding: 0.4rem 1.2rem;
     }
 }
 
@@ -1079,85 +1151,76 @@ main {
 }
 
 /* Price Management Section */
-.price-management {
-    background: var(--white);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    transition: var(--transition);
-    max-width: 500px;
-    margin: 0 auto;
+.price-summary, .price-management {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.price-management h2 {
-    color: var(--secondary-color);
+.price-summary h2, .price-management h2 {
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 2px solid var(--light-bg);
-    position: relative;
-    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-color);
 }
 
-.price-management h2::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 2px;
-    background: var(--gradient);
-    transition: var(--transition);
+.summary-cards, .price-inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    flex: 1;
 }
 
-.price-management:hover h2::after {
-    width: 80px;
+.summary-card, .price-management .form-group {
+    background: var(--light-bg);
+    padding: 1.25rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Media Queries */
-@media (max-width: 768px) {
-    .admin-form {
-        padding: 1.5rem;
-        gap: 1rem;
-    }
-
-    .form-group label {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.85rem;
-    }
-
-    .form-group input {
-        padding: 0.7rem 0.9rem;
-        font-size: 0.9rem;
-    }
-
-    .admin-form .submit-btn {
-        padding: 0.8rem;
-        font-size: 0.95rem;
-    }
+.summary-card:hover, .price-management .form-group:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 480px) {
-    .admin-form {
-        padding: 1.2rem;
-    }
+.price-management .form-group {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
 
-    .form-group label {
-        padding: 0.4rem 0.7rem;
-        font-size: 0.8rem;
-    }
+.price-management label {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
 
-    .form-group input {
-        padding: 0.6rem 0.8rem;
-        font-size: 0.85rem;
-    }
+.price-management input {
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background: var(--white);
+    transition: all 0.3s ease;
+}
 
-    .admin-form .submit-btn {
-        padding: 0.7rem;
-        font-size: 0.9rem;
-        max-width: 180px;
-    }
+.price-management input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
+}
+
+.price-management .submit-btn {
+    max-width: 200px;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    margin-top: auto;
+    align-self: center;
 }
 
 /* Logout Button Styles */
@@ -1214,4 +1277,277 @@ main {
 .logout-btn:focus {
     outline: 2px solid var(--white);
     outline-offset: 2px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+.close:hover {
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+#loginForm .submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#loginForm .submit-btn:hover {
+    background-color: #45a049;
+}
+
+#loginForm .submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Price Summary Styles */
+.price-summary {
+    margin-bottom: 2rem;
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.summary-card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f8f9fa;
+}
+
+.summary-card h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.summary-card:hover h3 {
+    color: #4CAF50;
+}
+
+.price-change {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.current-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.summary-card:hover .current-price {
+    color: #2E7D32;
+}
+
+.change-indicator {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.change-indicator.increase {
+    color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.change-indicator.decrease {
+    color: #f44336;
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+.summary-card:hover .change-indicator.increase {
+    background-color: rgba(76, 175, 80, 0.2);
+    transform: scale(1.05);
+}
+
+.summary-card:hover .change-indicator.decrease {
+    background-color: rgba(244, 67, 54, 0.2);
+    transform: scale(1.05);
+}
+
+.view-count {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.views-icon {
+    font-size: 1rem;
+}
+
+.views-number {
+    font-weight: 600;
+    color: #4CAF50;
+}
+
+.summary-card:hover .view-count {
+    color: #333;
+}
+
+.summary-card:hover .views-number {
+    color: #2E7D32;
+}
+
+.admin-main {
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.price-summary, .price-management {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.summary-card {
+    background: var(--light-bg);
+    padding: 1.25rem;
+    border-radius: 8px;
+}
+
+.price-inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.price-management .form-group {
+    padding: 1.25rem;
+}
+
+.price-management input {
+    padding: 0.6rem;
+}
+
+.price-management .submit-btn {
+    max-width: 200px;
+    padding: 0.75rem;
+}
+
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-main {
+        padding: 1rem;
+    }
+    
+    .summary-cards,
+    .price-inputs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .price-summary,
+    .price-management {
+        padding: 1.5rem;
+    }
 } 

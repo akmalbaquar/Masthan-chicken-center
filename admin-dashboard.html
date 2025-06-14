@@ -3,9 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Masthan Chicken Center</title>
+    <title>Admin Dashboard - Masthan Brailour Poultry Traders</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .nav-brand a {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .admin-dashboard {
+            padding-top: 1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-management {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-dashboard">
@@ -17,35 +103,66 @@
         </header>
 
         <main class="admin-main">
-            <section class="price-management">
-                <h2>Manage Prices</h2>
-                <form id="priceUpdateForm" class="admin-form" onsubmit="updatePrices(event)">
-                    <div class="form-group">
-                        <label for="withSkinPrice">With Skin Chicken (₹/kg)</label>
-                        <input type="number" id="withSkinPrice" name="withSkinPrice" required>
+            <div class="dashboard-grid">
+                <section class="price-summary">
+                    <h2>Live Prices</h2>
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <h3>With Skin Chicken</h3>
+                            <div class="price-change">
+                                <span class="current-price" id="withSkinCurrent"></span>
+                                <span class="change-indicator" id="withSkinChange"></span>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Skinless Chicken</h3>
+                            <div class="price-change">
+                                <span class="current-price" id="skinlessCurrent"></span>
+                                <span class="change-indicator" id="skinlessChange"></span>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <h3>100 Eggs</h3>
+                            <div class="price-change">
+                                <span class="current-price" id="eggsCurrent"></span>
+                                <span class="change-indicator" id="eggsChange"></span>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Live Rate</h3>
+                            <div class="price-change">
+                                <span class="current-price" id="liveRateCurrent"></span>
+                                <span class="change-indicator" id="liveRateChange"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="skinlessPrice">Skinless Chicken (₹/kg)</label>
-                        <input type="number" id="skinlessPrice" name="skinlessPrice" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="eggsPrice">100 Eggs Price (₹)</label>
-                        <input type="number" id="eggsPrice" name="eggsPrice" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="liveRate">Live Rate (₹/kg)</label>
-                        <input type="number" id="liveRate" name="liveRate" required>
-                    </div>
-                    <button type="submit" class="submit-btn">Update Prices</button>
-                </form>
-            </section>
+                </section>
 
-            <section class="price-history">
-                <h2>Price History</h2>
-                <div id="priceHistory" class="history-list">
-                    <!-- Price history will be populated here -->
-                </div>
-            </section>
+                <section class="price-management">
+                    <h2>Manage Prices</h2>
+                    <form id="priceUpdateForm" class="admin-form" onsubmit="updatePrices(event)">
+                        <div class="price-inputs-grid">
+                            <div class="form-group">
+                                <label for="withSkinPrice">With Skin Chicken (₹/kg)</label>
+                                <input type="number" id="withSkinPrice" name="withSkinPrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="skinlessPrice">Skinless Chicken (₹/kg)</label>
+                                <input type="number" id="skinlessPrice" name="skinlessPrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eggsPrice">100 Eggs Price (₹)</label>
+                                <input type="number" id="eggsPrice" name="eggsPrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="liveRate">Live Rate (₹/kg)</label>
+                                <input type="number" id="liveRate" name="liveRate" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">Update Prices</button>
+                    </form>
+                </section>
+            </div>
         </main>
     </div>
 
@@ -84,6 +201,8 @@
         function updatePrices(event) {
             event.preventDefault();
             
+            const oldPrices = { ...currentPrices };
+            
             currentPrices = {
                 withSkinPrice: document.getElementById('withSkinPrice').value,
                 skinlessPrice: document.getElementById('skinlessPrice').value,
@@ -97,12 +216,9 @@
             // Save prices
             localStorage.setItem('prices', JSON.stringify(currentPrices));
             console.log('Prices saved to localStorage');
-            
-            // Update price history
-            const history = JSON.parse(localStorage.getItem('priceHistory')) || [];
-            history.unshift(currentPrices);
-            localStorage.setItem('priceHistory', JSON.stringify(history.slice(0, 10)));
-            console.log('Price history updated');
+
+            // Update summary
+            updatePriceSummary(oldPrices, currentPrices);
 
             // Trigger storage event for other tabs
             window.dispatchEvent(new StorageEvent('storage', {
@@ -112,23 +228,31 @@
             console.log('Storage event dispatched');
 
             alert('Prices updated successfully!');
-            loadPriceHistory();
         }
 
-        // Load price history
-        function loadPriceHistory() {
-            const history = JSON.parse(localStorage.getItem('priceHistory')) || [];
-            const historyList = document.getElementById('priceHistory');
+        // Update price summary
+        function updatePriceSummary(oldPrices, newPrices) {
+            const items = ['withSkin', 'skinless', 'eggs', 'liveRate'];
             
-            historyList.innerHTML = history.map(update => `
-                <div class="history-item">
-                    <p>Updated: ${new Date(update.lastUpdated).toLocaleString()}</p>
-                    <p>With Skin: ${formatPrice(update.withSkinPrice, '/kg')}</p>
-                    <p>Skinless: ${formatPrice(update.skinlessPrice, '/kg')}</p>
-                    <p>100 Eggs: ${formatPrice(update.eggsPrice)}</p>
-                    <p>Live Rate: ${formatPrice(update.liveRate, '/kg')}</p>
-                </div>
-            `).join('');
+            items.forEach(item => {
+                const currentElement = document.getElementById(`${item}Current`);
+                const changeElement = document.getElementById(`${item}Change`);
+                
+                const oldPrice = parseFloat(oldPrices[`${item}Price`]);
+                const newPrice = parseFloat(newPrices[`${item}Price`]);
+                const change = newPrice - oldPrice;
+                
+                currentElement.textContent = formatPrice(newPrice, item === 'eggs' ? '' : '/kg');
+                
+                if (change !== 0) {
+                    const changeText = change > 0 ? `↑ ${formatPrice(change)}` : `↓ ${formatPrice(Math.abs(change))}`;
+                    changeElement.textContent = changeText;
+                    changeElement.className = `change-indicator ${change > 0 ? 'increase' : 'decrease'}`;
+                } else {
+                    changeElement.textContent = 'No change';
+                    changeElement.className = 'change-indicator';
+                }
+            });
         }
 
         // Logout function
@@ -140,7 +264,7 @@
 
         // Initialize
         loadCurrentPrices();
-        loadPriceHistory();
+        updatePriceSummary(currentPrices, currentPrices);
 
         // Add event listener for logout button
         document.getElementById('logoutBtn').addEventListener('click', handleLogout);

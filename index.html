@@ -3,35 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masthan Chicken Center</title>
+    <title>Masthan Brailour Poultry Traders</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
+
+<nav class="navbar">
+
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#prices">Menu</a></li>
+        <li><a href="#features">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="admin-login.html">Login</a></li>
+    </ul>
+</nav>
+
 <body>
     <div class="scroll-progress"></div>
     
-    <header>
-        <h1 class="section-title">Masthan Chicken Center</h1>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="section-title reveal active">Masthan Brailour Poultry Traders</h1>
+            <p class="section-subtitle reveal active">Your Trusted Source for Quality Poultry Products</p>
+        </div>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#prices">Menu</a></li>
-            <li><a href="#features">About Us</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <section id="home" class="hero reveal">
-        <div>
-            <h2>Fresh & Quality Chicken</h2>
-            <p>Your trusted source for premium chicken products</p>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
         </div>
-    </section>
+    </div>  
 
     <section id="prices" class="prices">
         <h2 class="section-title reveal">Our Chicken Prices</h2>
+        <div class="date-display">
+            <span id="currentDate"></span>
+        </div>
         <div class="price-grid">
             <div class="price-card reveal">
                 <h3>WITH SKIN CHICKEN</h3>
@@ -78,18 +100,30 @@
         <div class="contact-info reveal">
             <p>Visit us at:</p>
             <p>MC CIRCLE ALUR ROAD, Guntakal, Andhra Pradesh 515801</p>
-            <p>Phone: (+91 7075363111)</p>
+            <p>Phone: +91 7075363111<p>
             <p>Email: imthiazshaik9@gmail.com</p>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 Masthan Chicken Center. All rights reserved.</p>
+        <p>&copy; 2024 Masthan Brailour Poultry Traders. All rights reserved.</p>
     </footer>
 
     <a href="#" class="back-to-top">↑</a>
 
     <script>
+        // Update date display
+        function updateDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+        }
+
         // Scroll Progress Indicator
         window.addEventListener('scroll', () => {
             const scrollProgress = document.querySelector('.scroll-progress');
@@ -127,34 +161,6 @@
         window.addEventListener('scroll', reveal);
         reveal(); // Initial check
 
-        // Form Submission Handler
-        function handleSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const submitBtn = form.querySelector('.submit-btn');
-            
-            // Disable button and show loading state
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            
-            // Get form data
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Simulate form submission (replace with actual API endpoint)
-            setTimeout(() => {
-                // Reset form
-                form.reset();
-                
-                // Show success message
-                alert('Thank you for your message! We will get back to you soon.');
-                
-                // Reset button
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-            }, 1500);
-        }
-
         // Price variables
         let currentPrices = {
             withSkinPrice: 180,
@@ -185,9 +191,45 @@
             console.log('Prices updated in DOM');
         }
 
-        // Initialize prices
-        loadPrices();
-        console.log('Initial prices loaded');
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            loadPrices();
+        });
+
+        // Login Modal Functionality
+        const modal = document.getElementById('loginModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const closeBtn = document.querySelector('.close');
+        const loginForm = document.getElementById('loginForm');
+
+        loginBtn.onclick = function(e) {
+            e.preventDefault();
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        loginForm.onsubmit = function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Check credentials (replace with your actual authentication logic)
+            if (username === "admin" && password === "admin123") {
+                window.location.href = "admin-dashboard.html";
+            } else {
+                alert("Invalid username or password!");
+            }
+        }
 
         // Listen for storage changes
         window.addEventListener('storage', function(e) {
