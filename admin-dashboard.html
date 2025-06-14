@@ -193,6 +193,8 @@
         const analytics = getAnalytics(app);
         const database = getDatabase(app);
 
+        console.log("Firebase initialized in admin dashboard");
+
         // Check if admin is logged in
         if (!localStorage.getItem('adminLoggedIn')) {
             window.location.href = 'admin-login.html';
@@ -213,11 +215,12 @@
 
         // Load current prices from Firebase
         function loadCurrentPrices() {
+            console.log("Loading current prices from Firebase...");
             const pricesRef = ref(database, 'prices');
             onValue(pricesRef, (snapshot) => {
                 const prices = snapshot.val() || currentPrices;
+                console.log("Received prices from Firebase:", prices);
                 currentPrices = prices;
-                console.log('Loading current prices:', currentPrices);
 
                 document.getElementById('withSkinPrice').value = currentPrices.withSkinPrice;
                 document.getElementById('skinlessPrice').value = currentPrices.skinlessPrice;
@@ -243,13 +246,13 @@
                 lastUpdated: new Date().toISOString()
             };
 
-            console.log('Updating prices:', newPrices);
+            console.log('Attempting to update prices:', newPrices);
 
             // Save prices to Firebase
             const pricesRef = ref(database, 'prices');
             set(pricesRef, newPrices)
                 .then(() => {
-                    console.log('Prices saved to Firebase');
+                    console.log('Prices successfully saved to Firebase');
                     currentPrices = newPrices;
                     
                     // Update summary
