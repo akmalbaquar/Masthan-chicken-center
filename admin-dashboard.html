@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Masthan Chicken Center</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-dashboard">
+        <header class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <div class="header-actions">
+                <button type="button" id="logoutBtn" class="logout-btn" aria-label="Logout">Logout</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <section class="price-management">
+                <h2>Manage Prices</h2>
+                <form id="priceUpdateForm" class="admin-form" onsubmit="updatePrices(event)">
+                    <div class="form-group">
+                        <label for="withSkinPrice">With Skin Chicken (₹/kg)</label>
+                        <input type="number" id="withSkinPrice" name="withSkinPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="skinlessPrice">Skinless Chicken (₹/kg)</label>
+                        <input type="number" id="skinlessPrice" name="skinlessPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eggsPrice">100 Eggs Price (₹)</label>
+                        <input type="number" id="eggsPrice" name="eggsPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="liveRate">Live Rate (₹/kg)</label>
+                        <input type="number" id="liveRate" name="liveRate" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Update Prices</button>
+                </form>
+            </section>
+
+            <section class="price-history">
+                <h2>Price History</h2>
+                <div id="priceHistory" class="history-list">
+                    <!-- Price history will be populated here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Check if admin is logged in
+        if (!localStorage.getItem('adminLoggedIn')) {
+            window.location.href = 'admin-login.html';
+        }
+
+        // Price variables
+        let currentPrices = {
+            withSkinPrice: 180,
+            skinlessPrice: 220,
+            eggsPrice: 579,
+            liveRate: 100
+        };
+
+        // Function to format price with currency symbol
+        function formatPrice(price, unit = '') {
+            return `₹${price}${unit}`;
+        }
+
+        // Load current prices
+        function loadCurrentPrices() {
+            const savedPrices = JSON.parse(localStorage.getItem('prices')) || currentPrices;
+            currentPrices = savedPrices;
+            console.log('Loading current prices:', currentPrices);
+
+            document.getElementById('withSkinPrice').value = currentPrices.withSkinPrice;
+            document.getElementById('skinlessPrice').value = currentPrices.skinlessPrice;
+            document.getElementById('eggsPrice').value = currentPrices.eggsPrice;
+            document.getElementById('liveRate').value = currentPrices.liveRate;
+        }
+
+        // Update prices
+        function updatePrices(event) {
+            event.preventDefault();
+            
+            currentPrices = {
+                withSkinPrice: document.getElementById('withSkinPrice').value,
+                skinlessPrice: document.getElementById('skinlessPrice').value,
+                eggsPrice: document.getElementById('eggsPrice').value,
+                liveRate: document.getElementById('liveRate').value,
+                lastUpdated: new Date().toISOString()
+            };
+
+            console.log('Updating prices:', currentPrices);
+
+            // Save prices
+            localStorage.setItem('prices', JSON.stringify(currentPrices));
+            console.log('Prices saved to localStorage');
+            
+            // Update price history
+            const history = JSON.parse(localStorage.getItem('priceHistory')) || [];
+            history.unshift(currentPrices);
+            localStorage.setItem('priceHistory', JSON.stringify(history.slice(0, 10)));
+            console.log('Price history updated');
+
+            // Trigger storage event for other tabs
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'prices',
+                newValue: JSON.stringify(currentPrices)
+            }));
+            console.log('Storage event dispatched');
+
+            alert('Prices updated successfully!');
+            loadPriceHistory();
+        }
+
+        // Load price history
+        function loadPriceHistory() {
+            const history = JSON.parse(localStorage.getItem('priceHistory')) || [];
+            const historyList = document.getElementById('priceHistory');
+            
+            historyList.innerHTML = history.map(update => `
+                <div class="history-item">
+                    <p>Updated: ${new Date(update.lastUpdated).toLocaleString()}</p>
+                    <p>With Skin: ${formatPrice(update.withSkinPrice, '/kg')}</p>
+                    <p>Skinless: ${formatPrice(update.skinlessPrice, '/kg')}</p>
+                    <p>100 Eggs: ${formatPrice(update.eggsPrice)}</p>
+                    <p>Live Rate: ${formatPrice(update.liveRate, '/kg')}</p>
+                </div>
+            `).join('');
+        }
+
+        // Logout function
+        function handleLogout() {
+            console.log('Logging out...');
+            localStorage.removeItem('adminLoggedIn');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Initialize
+        loadCurrentPrices();
+        loadPriceHistory();
+
+        // Add event listener for logout button
+        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+    </script>
+</body>
+</html> 

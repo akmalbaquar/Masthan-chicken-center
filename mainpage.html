@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masthan Chicken Center</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="scroll-progress"></div>
+    
+    <header>
+        <h1 class="section-title">Masthan Chicken Center</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#prices">Menu</a></li>
+            <li><a href="#features">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero reveal">
+        <div>
+            <h2>Fresh & Quality Chicken</h2>
+            <p>Your trusted source for premium chicken products</p>
+        </div>
+    </section>
+
+    <section id="prices" class="prices">
+        <h2 class="section-title reveal">Our Chicken Prices</h2>
+        <div class="price-grid">
+            <div class="price-card reveal">
+                <h3>WITH SKIN CHICKEN</h3>
+                <p class="price" id="withSkinPrice"></p>
+                <p class="description">Fresh WITH SKIN CHICKEN, cleaned and ready to cook</p>
+            </div>
+            <div class="price-card reveal">
+                <h3>Skin less chicken</h3>
+                <p class="price" id="skinlessPrice"></p>
+                <p class="description">Premium chicken legs, perfect for grilling</p>
+            </div>
+            <div class="price-card reveal">
+                <h3>100 EGGS</h3>
+                <p class="price" id="eggsPrice"></p>
+                <p class="description">100 eggs, fresh and ready to cook</p>
+            </div>
+            <div class="price-card reveal">
+                <h3>Live rate</h3>
+                <p class="price" id="liveRate"></p>
+                <p class="description">Live rate, fresh and ready to cook</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2 class="section-title reveal">Why Choose Us?</h2>
+        <div class="feature-grid">
+            <div class="feature-card reveal">
+                <h3>Fresh Quality</h3>
+                <p>We source only the freshest and highest quality chicken for our customers.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3>Hygienic</h3>
+                <p>Our facility maintains the highest standards of cleanliness and hygiene.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3>Best Prices</h3>
+                <p>Competitive prices without compromising on quality.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact-info reveal">
+            <p>Visit us at:</p>
+            <p>MC CIRCLE ALUR ROAD, Guntakal, Andhra Pradesh 515801</p>
+            <p>Phone: (+91 7075363111)</p>
+            <p>Email: imthiazshaik9@gmail.com</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Masthan Chicken Center. All rights reserved.</p>
+    </footer>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Scroll Progress Indicator
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / scrollable) * 100;
+            scrollProgress.style.transform = `scaleX(${progress / 100})`;
+        });
+
+        // Back to Top Button
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        function reveal() {
+            revealElements.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Initial check
+
+        // Form Submission Handler
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Simulate form submission (replace with actual API endpoint)
+            setTimeout(() => {
+                // Reset form
+                form.reset();
+                
+                // Show success message
+                alert('Thank you for your message! We will get back to you soon.');
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }, 1500);
+        }
+
+        // Price variables
+        let currentPrices = {
+            withSkinPrice: 180,
+            skinlessPrice: 220,
+            eggsPrice: 579,
+            liveRate: 100
+        };
+
+        // Function to format price with currency symbol
+        function formatPrice(price, unit = '') {
+            return `₹${price}${unit}`;
+        }
+
+        // Function to update price display
+        function updatePriceDisplay() {
+            document.getElementById('withSkinPrice').textContent = formatPrice(currentPrices.withSkinPrice, '/kg');
+            document.getElementById('skinlessPrice').textContent = formatPrice(currentPrices.skinlessPrice, '/kg');
+            document.getElementById('eggsPrice').textContent = formatPrice(currentPrices.eggsPrice);
+            document.getElementById('liveRate').textContent = formatPrice(currentPrices.liveRate, '/kg');
+        }
+
+        // Load prices from localStorage
+        function loadPrices() {
+            const savedPrices = JSON.parse(localStorage.getItem('prices')) || currentPrices;
+            currentPrices = savedPrices;
+            console.log('Main page loading prices:', currentPrices);
+            updatePriceDisplay();
+            console.log('Prices updated in DOM');
+        }
+
+        // Initialize prices
+        loadPrices();
+        console.log('Initial prices loaded');
+
+        // Listen for storage changes
+        window.addEventListener('storage', function(e) {
+            console.log('Storage event received:', e.key);
+            if (e.key === 'prices') {
+                console.log('Prices changed, reloading...');
+                loadPrices();
+            }
+        });
+    </script>
+</body>
+</html>

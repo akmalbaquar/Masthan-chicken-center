@@ -1,0 +1,1217 @@
+:root {
+    --primary-color: #2a9d8f;
+    --secondary-color: #264653;
+    --accent-color: #34a0a4;
+    --text-color: #2b2d42;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--text-color);
+    background: var(--light-bg);
+    overflow-x: hidden;
+}
+
+header {
+    background: var(--gradient);
+    color: var(--white);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    animation: gradientBG 15s ease infinite;
+    background-size: 400% 400%;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%);
+    background-size: 60px 60px;
+    animation: headerPattern 20s linear infinite;
+    opacity: 0.1;
+}
+
+@keyframes headerPattern {
+    0% { background-position: 0 0; }
+    100% { background-position: 60px 60px; }
+}
+
+header h1 {
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+}
+
+nav {
+    background-color: var(--secondary-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+    width: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 3.5rem;
+    margin: 0;
+    padding: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav li {
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    display: block;
+    transition: var(--transition);
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary-color);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+nav a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.hero {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./images/MBPT\ LOGO.jpeg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    margin-top: 3.5rem;
+    height: 400px;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.hero div {
+    max-width: 800px;
+    padding: 2rem;
+    border-radius: 10px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero h2 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 0 1rem;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    padding: 0 1rem;
+}
+
+.prices {
+    padding: 4rem 2rem;
+    text-align: center;
+    background-color: var(--white);
+}
+
+.prices h2 {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.prices h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.prices h2:hover {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.price-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2rem;
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.price-card {
+    background: var(--white);
+    border: none;
+    box-shadow: var(--card-shadow);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.price-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.price-card:hover::before {
+    transform: scaleX(1);
+}
+
+.price-card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+}
+
+.price-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.price-card:hover::after {
+    left: 100%;
+}
+
+.price-card h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.price-card .price {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 1rem 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.price-card .description {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.features {
+    padding: 4rem 2rem;
+    text-align: center;
+    background-color: var(--light-bg);
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.features h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.features h2:hover {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    background-color: var(--white);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.feature-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+}
+
+.contact {
+    background-color: var(--light-bg);
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient);
+}
+
+.contact h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.contact h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.contact h2:hover {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.contact p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    transition: var(--transition);
+}
+
+.contact p:hover {
+    transform: translateX(10px);
+    color: var(--primary-color);
+}
+
+footer {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient);
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0.8rem 1rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--secondary-color);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+    }
+
+    nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+        margin-top: 3rem;
+    }
+
+    nav li {
+        width: auto;
+        text-align: center;
+        padding: 0;
+        border: none;
+    }
+
+    nav a {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        display: inline-block;
+        width: auto;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .hero {
+        margin-top: 5rem;
+        height: 400px;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+        padding: 0 1rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+
+    .prices, .features, .contact {
+        padding: 2rem 1rem;
+    }
+
+    .price-grid, .feature-grid {
+        gap: 1.5rem;
+        padding: 0;
+    }
+
+    .price-card, .feature-card {
+        margin: 0;
+        padding: 1.5rem;
+    }
+
+    .price-card .price {
+        font-size: 2rem;
+    }
+
+    .contact-form {
+        margin: 1rem 0;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        margin: 0.5rem 0;
+        padding: 0.8rem;
+    }
+
+    .contact-info {
+        margin-top: 1.5rem;
+    }
+
+    .contact-info p {
+        margin: 0.5rem 0;
+    }
+
+    .back-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul {
+        gap: 0.3rem;
+    }
+
+    nav a {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    header {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero {
+        height: 350px;
+    }
+
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .price-card, .feature-card {
+        padding: 1.2rem;
+    }
+
+    .price-card .price {
+        font-size: 1.8rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 0.7rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .back-to-top {
+        bottom: 0.8rem;
+        right: 0.8rem;
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+}
+
+/* Remove mobile menu related styles */
+nav {
+    transform: none;
+    transition: none;
+}
+
+nav.active {
+    transform: none;
+}
+
+/* Ensure content doesn't jump */
+body {
+    overflow-x: hidden;
+}
+
+/* Add padding to main content to account for fixed header */
+main {
+    padding-top: 3.5rem;
+}
+
+/* Add a scroll progress indicator */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    z-index: 1001;
+}
+
+/* Add a back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--gradient);
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+}
+
+.back-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Add hover effect to section titles */
+.section-title {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.section-title:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Add scroll reveal animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Add custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Add loading animation for images */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Add floating labels to contact form */
+.contact-form {
+    position: relative;
+    margin: 2rem 0;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: var(--white);
+    transition: var(--transition);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
+    outline: none;
+}
+
+/* Enhanced back to top button */
+.back-to-top {
+    background: var(--gradient);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Fix for mobile menu */
+nav.active {
+    transform: translateX(0);
+}
+
+/* Ensure content doesn't jump when menu opens */
+body {
+    overflow-x: hidden;
+}
+
+/* Add padding to main content to account for fixed header */
+main {
+    padding-top: 3.5rem;
+}
+
+.submit-btn {
+    background: var(--gradient);
+    color: var(--white);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    max-width: 200px;
+    margin: 1rem auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.submit-btn:hover::before {
+    left: 100%;
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.submit-btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.submit-btn:disabled::before {
+    display: none;
+}
+
+/* Admin Styles */
+.admin-login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient);
+    padding: 1rem;
+}
+
+.admin-form {
+    display: grid;
+    gap: 1.2rem;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.admin-form h2 {
+    text-align: center;
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    display: grid;
+    gap: 0.5rem;
+    position: relative;
+    text-align: center;
+}
+
+.form-group label {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--gradient);
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-group label::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transform: translateX(-100%);
+    transition: 0.5s;
+}
+
+.form-group:hover label::before {
+    transform: translateX(100%);
+}
+
+.form-group label::after {
+    content: '₹';
+    position: absolute;
+    right: 1.2rem;
+    opacity: 0.5;
+    font-weight: 600;
+}
+
+.form-group input {
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--light-bg);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    background: var(--white);
+    color: var(--text-color);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    width: 100%;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #a0a0a0;
+}
+
+/* Special case for eggs price label */
+.form-group:nth-child(3) label::after {
+    content: '₹';
+}
+
+/* Special case for live rate label */
+.form-group:nth-child(4) label::after {
+    content: '₹/kg';
+}
+
+@media (max-width: 768px) {
+    .form-group label {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .form-group input {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-group label {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.8rem;
+    }
+
+    .form-group label::after {
+        right: 0.9rem;
+    }
+}
+
+/* Submit Button Styles */
+.admin-form .submit-btn {
+    background: var(--gradient);
+    color: var(--white);
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-form .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.admin-form .submit-btn:hover::before {
+    left: 100%;
+}
+
+.admin-form .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-form .submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Price Management Section */
+.price-management {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.price-management h2 {
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--light-bg);
+    position: relative;
+    text-align: center;
+}
+
+.price-management h2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: var(--gradient);
+    transition: var(--transition);
+}
+
+.price-management:hover h2::after {
+    width: 80px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .admin-form {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .form-group label {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .form-group input {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.9rem;
+    }
+
+    .admin-form .submit-btn {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-form {
+        padding: 1.2rem;
+    }
+
+    .form-group label {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.8rem;
+    }
+
+    .form-group input {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .admin-form .submit-btn {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+        max-width: 180px;
+    }
+}
+
+/* Logout Button Styles */
+.logout-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+    font-weight: 500;
+    min-width: 100px;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+    z-index: 1001;
+}
+
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.logout-btn:hover::before {
+    left: 100%;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+}
+
+.logout-btn:focus {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+} 
