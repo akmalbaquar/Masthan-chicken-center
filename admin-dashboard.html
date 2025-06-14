@@ -6,6 +6,10 @@
     <title>Admin Dashboard - Masthan Brailour Poultry Traders</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <style>
         .navbar {
             background-color: rgba(255, 255, 255, 0.95);
@@ -166,7 +170,29 @@
         </main>
     </div>
 
-    <script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAefiwRw1-CGmKPpBzhs1kveUPdc82UWAU",
+            authDomain: "masthan-prices.firebaseapp.com",
+            databaseURL: "https://masthan-prices-default-rtdb.firebaseio.com",
+            projectId: "masthan-prices",
+            storageBucket: "masthan-prices.firebasestorage.app",
+            messagingSenderId: "879026480403",
+            appId: "1:879026480403:web:1abbf69da8ef379ccd26e6",
+            measurementId: "G-LCCQZS6Q1V"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
         // Check if admin is logged in
         if (!localStorage.getItem('adminLoggedIn')) {
             window.location.href = 'admin-login.html';
@@ -185,49 +211,56 @@
             return `₹${price}${unit}`;
         }
 
-        // Load current prices
+        // Load current prices from Firebase
         function loadCurrentPrices() {
-            const savedPrices = JSON.parse(localStorage.getItem('prices')) || currentPrices;
-            currentPrices = savedPrices;
-            console.log('Loading current prices:', currentPrices);
+            const pricesRef = ref(database, 'prices');
+            onValue(pricesRef, (snapshot) => {
+                const prices = snapshot.val() || currentPrices;
+                currentPrices = prices;
+                console.log('Loading current prices:', currentPrices);
 
-            document.getElementById('withSkinPrice').value = currentPrices.withSkinPrice;
-            document.getElementById('skinlessPrice').value = currentPrices.skinlessPrice;
-            document.getElementById('eggsPrice').value = currentPrices.eggsPrice;
-            document.getElementById('liveRate').value = currentPrices.liveRate;
+                document.getElementById('withSkinPrice').value = currentPrices.withSkinPrice;
+                document.getElementById('skinlessPrice').value = currentPrices.skinlessPrice;
+                document.getElementById('eggsPrice').value = currentPrices.eggsPrice;
+                document.getElementById('liveRate').value = currentPrices.liveRate;
+
+                // Update summary display
+                updatePriceSummary(currentPrices, currentPrices);
+            });
         }
 
-        // Update prices
+        // Update prices in Firebase
         function updatePrices(event) {
             event.preventDefault();
             
             const oldPrices = { ...currentPrices };
             
-            currentPrices = {
-                withSkinPrice: document.getElementById('withSkinPrice').value,
-                skinlessPrice: document.getElementById('skinlessPrice').value,
-                eggsPrice: document.getElementById('eggsPrice').value,
-                liveRate: document.getElementById('liveRate').value,
+            const newPrices = {
+                withSkinPrice: parseFloat(document.getElementById('withSkinPrice').value),
+                skinlessPrice: parseFloat(document.getElementById('skinlessPrice').value),
+                eggsPrice: parseFloat(document.getElementById('eggsPrice').value),
+                liveRate: parseFloat(document.getElementById('liveRate').value),
                 lastUpdated: new Date().toISOString()
             };
 
-            console.log('Updating prices:', currentPrices);
+            console.log('Updating prices:', newPrices);
 
-            // Save prices
-            localStorage.setItem('prices', JSON.stringify(currentPrices));
-            console.log('Prices saved to localStorage');
-
-            // Update summary
-            updatePriceSummary(oldPrices, currentPrices);
-
-            // Trigger storage event for other tabs
-            window.dispatchEvent(new StorageEvent('storage', {
-                key: 'prices',
-                newValue: JSON.stringify(currentPrices)
-            }));
-            console.log('Storage event dispatched');
-
-            alert('Prices updated successfully!');
+            // Save prices to Firebase
+            const pricesRef = ref(database, 'prices');
+            set(pricesRef, newPrices)
+                .then(() => {
+                    console.log('Prices saved to Firebase');
+                    currentPrices = newPrices;
+                    
+                    // Update summary
+                    updatePriceSummary(oldPrices, newPrices);
+                    
+                    alert('Prices updated successfully!');
+                })
+                .catch((error) => {
+                    console.error("Error updating prices:", error);
+                    alert("Error updating prices. Please try again.");
+                });
         }
 
         // Update price summary
@@ -249,25 +282,20 @@
                     changeElement.textContent = changeText;
                     changeElement.className = `change-indicator ${change > 0 ? 'increase' : 'decrease'}`;
                 } else {
-                    changeElement.textContent = 'No change';
+                    changeElement.textContent = '';
                     changeElement.className = 'change-indicator';
                 }
             });
         }
 
-        // Logout function
-        function handleLogout() {
-            console.log('Logging out...');
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
             localStorage.removeItem('adminLoggedIn');
             window.location.href = 'admin-login.html';
-        }
+        });
 
-        // Initialize
-        loadCurrentPrices();
-        updatePriceSummary(currentPrices, currentPrices);
-
-        // Add event listener for logout button
-        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+        // Load prices when page loads
+        document.addEventListener('DOMContentLoaded', loadCurrentPrices);
     </script>
 </body>
 </html> 

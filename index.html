@@ -9,9 +9,13 @@
 </head>
 
 
-<nav class="navbar">
-
-    <ul>
+<nav class="navbar" id="mainNav">
+    <button class="nav-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    <ul class="nav-menu">
         <li><a href="#home">Home</a></li>
         <li><a href="#prices">Menu</a></li>
         <li><a href="#features">About Us</a></li>
@@ -121,7 +125,29 @@
 
     <a href="#" class="back-to-top">↑</a>
 
-    <script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAefiwRw1-CGmKPpBzhs1kveUPdc82UWAU",
+            authDomain: "masthan-prices.firebaseapp.com",
+            databaseURL: "https://masthan-prices-default-rtdb.firebaseio.com",
+            projectId: "masthan-prices",
+            storageBucket: "masthan-prices.firebasestorage.app",
+            messagingSenderId: "879026480403",
+            appId: "1:879026480403:web:1abbf69da8ef379ccd26e6",
+            measurementId: "G-LCCQZS6Q1V"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
         // Update date display
         function updateDate() {
             const now = new Date();
@@ -171,40 +197,32 @@
         window.addEventListener('scroll', reveal);
         reveal(); // Initial check
 
-        // Price variables
-        let currentPrices = {
-            withSkinPrice: 180,
-            skinlessPrice: 220,
-            eggsPrice: 579,
-            liveRate: 100
-        };
-
         // Function to format price with currency symbol
         function formatPrice(price, unit = '') {
             return `₹${price}${unit}`;
         }
 
         // Function to update price display
-        function updatePriceDisplay() {
-            document.getElementById('withSkinPrice').textContent = formatPrice(currentPrices.withSkinPrice, '/kg');
-            document.getElementById('skinlessPrice').textContent = formatPrice(currentPrices.skinlessPrice, '/kg');
-            document.getElementById('eggsPrice').textContent = formatPrice(currentPrices.eggsPrice);
-            document.getElementById('liveRate').textContent = formatPrice(currentPrices.liveRate, '/kg');
+        function updatePriceDisplay(prices) {
+            document.getElementById('withSkinPrice').textContent = formatPrice(prices.withSkinPrice, '/kg');
+            document.getElementById('skinlessPrice').textContent = formatPrice(prices.skinlessPrice, '/kg');
+            document.getElementById('eggsPrice').textContent = formatPrice(prices.eggsPrice);
+            document.getElementById('liveRate').textContent = formatPrice(prices.liveRate, '/kg');
         }
 
-        // Load prices from localStorage
-        function loadPrices() {
-            const savedPrices = JSON.parse(localStorage.getItem('prices')) || currentPrices;
-            currentPrices = savedPrices;
-            console.log('Main page loading prices:', currentPrices);
-            updatePriceDisplay();
-            console.log('Prices updated in DOM');
-        }
+        // Listen for price changes in Firebase
+        const pricesRef = ref(database, 'prices');
+        onValue(pricesRef, (snapshot) => {
+            const prices = snapshot.val();
+            if (prices) {
+                console.log('Prices updated from Firebase:', prices);
+                updatePriceDisplay(prices);
+            }
+        });
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateDate();
-            loadPrices();
         });
 
         // Login Modal Functionality
@@ -241,14 +259,24 @@
             }
         }
 
-        // Listen for storage changes
-        window.addEventListener('storage', function(e) {
-            console.log('Storage event received:', e.key);
-            if (e.key === 'prices') {
-                console.log('Prices changed, reloading...');
-                loadPrices();
-            }
-        });
+        // Mobile Navigation Toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navToggle.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Close menu when a link is clicked
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
     </script>
 </body>
 </html>
