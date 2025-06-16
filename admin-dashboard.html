@@ -199,14 +199,6 @@
 
         console.log("Firebase initialized in admin dashboard");
 
-        // Check authentication state
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                // Not logged in, redirect to login page
-                window.location.href = 'admin-login.html';
-            }
-        });
-
         // Price variables
         let currentPrices = {
             withSkinPrice: 180,
@@ -244,6 +236,12 @@
             event.preventDefault();
             
             try {
+                // Check if user is authenticated
+                const user = auth.currentUser;
+                if (!user) {
+                    throw new Error('User not authenticated');
+                }
+
                 const oldPrices = { ...currentPrices };
                 
                 const newPrices = {
@@ -251,12 +249,13 @@
                     skinlessPrice: parseFloat(document.getElementById('skinlessPrice').value),
                     eggsPrice: parseFloat(document.getElementById('eggsPrice').value),
                     liveRate: parseFloat(document.getElementById('liveRate').value),
-                    lastUpdated: new Date().toISOString()
+                    lastUpdated: new Date().toISOString(),
+                    updatedBy: user.email
                 };
 
                 console.log('Attempting to update prices:', newPrices);
 
-                // Update Firebase
+                // Update Firebase with authentication token
                 const pricesRef = ref(database, 'prices');
                 await set(pricesRef, newPrices);
                 
@@ -270,7 +269,12 @@
                 updatePriceSummary(oldPrices, newPrices);
             } catch (error) {
                 console.error('Error updating prices:', error);
-                alert('Error updating prices. Please try again.');
+                if (error.message === 'User not authenticated') {
+                    alert('Your session has expired. Please log in again.');
+                    window.location.href = 'admin-login.html';
+                } else {
+                    alert('Error updating prices. Please try again.');
+                }
             }
         }
 
@@ -296,7 +300,17 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             console.log("Page loaded, initializing...");
-            loadCurrentPrices();
+            
+            // Check authentication state
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in, load prices
+                    loadCurrentPrices();
+                } else {
+                    // No user is signed in, redirect to login
+                    window.location.href = 'admin-login.html';
+                }
+            });
 
             // Add form submit handler
             const priceUpdateForm = document.getElementById('priceUpdateForm');
