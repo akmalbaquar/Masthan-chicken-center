@@ -6,7 +6,7 @@
     <title>Mastan Broiler poultry Traders</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="icon" type="image/jpeg" href="images/MBPT LOGO.jpeg">
 </head>
 
 
@@ -21,7 +21,7 @@
         <li><a href="#prices">Menu</a></li>
         <li><a href="#features">About Us</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="admin-login.html">Login</a></li>
+        <li><button id="loginBtn" class="login-btn">Login</button></li>
     </ul>
 </nav>
 
@@ -130,7 +130,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+        import { getDatabase, ref, onValue, get, set } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -150,6 +150,29 @@
         const database = getDatabase(app);
 
         console.log("Firebase initialized in main page");
+
+        // Default prices in case Firebase is empty
+        const defaultPrices = {
+            withSkinPrice: 180,
+            skinlessPrice: 220,
+            eggsPrice: 579,
+            liveRate: 100,
+            lastUpdated: new Date().toISOString()
+        };
+
+        // Function to initialize prices in Firebase if they don't exist
+        async function initializePrices() {
+            const pricesRef = ref(database, 'prices');
+            try {
+                const snapshot = await get(pricesRef);
+                if (!snapshot.exists()) {
+                    console.log("No prices found in Firebase, initializing with default values");
+                    await set(pricesRef, defaultPrices);
+                }
+            } catch (error) {
+                console.error("Error initializing prices:", error);
+            }
+        }
 
         // Update date display
         function updateDate() {
@@ -238,14 +261,20 @@
             if (prices) {
                 updatePriceDisplay(prices);
             } else {
-                console.warn("No prices received from Firebase");
+                console.log("No prices in Firebase, using default values");
+                updatePriceDisplay(defaultPrices);
             }
+        }, (error) => {
+            console.error("Error fetching prices:", error);
+            console.log("Using default prices due to error");
+            updatePriceDisplay(defaultPrices);
         });
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             console.log("Page loaded, initializing...");
             updateDate();
+            await initializePrices();
         });
 
         // Login Modal Functionality
@@ -254,32 +283,38 @@
         const closeBtn = document.querySelector('.close');
         const loginForm = document.getElementById('loginForm');
 
-        loginBtn.onclick = function(e) {
-            e.preventDefault();
-            modal.style.display = "block";
+        if (loginBtn) {
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.style.display = "block";
+            });
         }
 
-        closeBtn.onclick = function() {
-            modal.style.display = "none";
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
         }
 
-        window.onclick = function(event) {
+        window.addEventListener('click', function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
-        }
+        });
 
-        loginForm.onsubmit = function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
 
-            // Check credentials (replace with your actual authentication logic)
-            if (username === "admin" && password === "admin123") {
-                window.location.href = "admin-dashboard.html";
-            } else {
-                alert("Invalid username or password!");
-            }
+                // Check credentials (replace with your actual authentication logic)
+                if (username === "admin" && password === "admin123") {
+                    window.location.href = "admin-dashboard.html";
+                } else {
+                    alert("Invalid username or password!");
+                }
+            });
         }
 
         // Mobile Navigation Toggle
