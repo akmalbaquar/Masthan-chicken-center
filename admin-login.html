@@ -3,113 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - </title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-image: url('images/mbpt 2.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .admin-login-container {
-            background-color: rgba(255, 255, 255, 0.5);
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-        }
-
-        .login-heading {
-            text-align: center;
-            color: #000;
-            margin-bottom: 1.5rem;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            font-size: 1rem;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .summary {
-            margin-top: 1rem;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 4px;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .summary h3 {
-            margin: 0 0 0.5rem 0;
-            color: #000;
-        }
-
-        .summary p {
-            margin: 0.5rem 0;
-        }
-    </style>
+    <title>Admin Login - Masthan Brailour Poultry Traders</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="images/MBPT LOGO.jpeg">
 </head>
 <body>
-    <div class="admin-login-container">
-        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
-            <h2 class="login-heading">Login</h2>
-            <div class="form-group">
-                <input type="text" id="username" name="username" placeholder="Username" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" name="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="submit-btn">Login</button>
-        </form>
-        <div class="summary">
-            <h3>Login Information</h3>
-            <p>Note: This is a secure admin login page only for admin/owner of the website <P>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Admin Login</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+            <div id="errorMessage" class="error-message"></div>
         </div>
     </div>
 
-    <script>
-        function handleAdminLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAefiwRw1-CGmKPpBzhs1kveUPdc82UWAU",
+            authDomain: "masthan-prices.firebaseapp.com",
+            databaseURL: "https://masthan-prices-default-rtdb.firebaseio.com",
+            projectId: "masthan-prices",
+            storageBucket: "masthan-prices.firebasestorage.app",
+            messagingSenderId: "879026480403",
+            appId: "1:879026480403:web:1abbf69da8ef379ccd26e6",
+            measurementId: "G-LCCQZS6Q1V"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check if user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, redirect to dashboard
+                window.location.href = 'admin-dashboard.html';
+            }
+        });
+
+        // Handle login form submission
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            if (username === 'mbpt' && password === 'Ibpt@0177') {
-                localStorage.setItem('adminLoggedIn', 'true');
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                // Successful login
                 window.location.href = 'admin-dashboard.html';
-            } else {
-                alert('Invalid credentials');
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Invalid email or password. Please try again.';
             }
-        }
+        });
     </script>
 </body>
 </html> 

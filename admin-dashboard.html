@@ -6,6 +6,8 @@
     <title>Admin Dashboard - Masthan Brailour Poultry Traders</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="images/MBPT LOGO.jpeg">
+
     <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -144,7 +146,7 @@
 
                 <section class="price-management">
                     <h2>Manage Prices</h2>
-                    <form id="priceUpdateForm" class="admin-form" onsubmit="updatePrices(event)">
+                    <form id="priceUpdateForm" class="admin-form">
                         <div class="price-inputs-grid">
                             <div class="form-group">
                                 <label for="withSkinPrice">With Skin Chicken (₹/kg)</label>
@@ -175,6 +177,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -192,13 +195,17 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const database = getDatabase(app);
+        const auth = getAuth(app);
 
         console.log("Firebase initialized in admin dashboard");
 
-        // Check if admin is logged in
-        if (!localStorage.getItem('adminLoggedIn')) {
-            window.location.href = 'admin-login.html';
-        }
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Not logged in, redirect to login page
+                window.location.href = 'admin-login.html';
+            }
+        });
 
         // Price variables
         let currentPrices = {
@@ -233,72 +240,84 @@
         }
 
         // Update prices in Firebase
-        function updatePrices(event) {
+        async function updatePrices(event) {
             event.preventDefault();
             
-            const oldPrices = { ...currentPrices };
-            
-            const newPrices = {
-                withSkinPrice: parseFloat(document.getElementById('withSkinPrice').value),
-                skinlessPrice: parseFloat(document.getElementById('skinlessPrice').value),
-                eggsPrice: parseFloat(document.getElementById('eggsPrice').value),
-                liveRate: parseFloat(document.getElementById('liveRate').value),
-                lastUpdated: new Date().toISOString()
+            try {
+                const oldPrices = { ...currentPrices };
+                
+                const newPrices = {
+                    withSkinPrice: parseFloat(document.getElementById('withSkinPrice').value),
+                    skinlessPrice: parseFloat(document.getElementById('skinlessPrice').value),
+                    eggsPrice: parseFloat(document.getElementById('eggsPrice').value),
+                    liveRate: parseFloat(document.getElementById('liveRate').value),
+                    lastUpdated: new Date().toISOString()
+                };
+
+                console.log('Attempting to update prices:', newPrices);
+
+                // Update Firebase
+                const pricesRef = ref(database, 'prices');
+                await set(pricesRef, newPrices);
+                
+                // Update local state
+                currentPrices = newPrices;
+                
+                // Show success message
+                alert('Prices updated successfully!');
+                
+                // Update summary display
+                updatePriceSummary(oldPrices, newPrices);
+            } catch (error) {
+                console.error('Error updating prices:', error);
+                alert('Error updating prices. Please try again.');
+            }
+        }
+
+        // Function to update price summary display
+        function updatePriceSummary(oldPrices, newPrices) {
+            const priceElements = {
+                'withSkinCurrent': 'withSkinPrice',
+                'skinlessCurrent': 'skinlessPrice',
+                'eggsCurrent': 'eggsPrice',
+                'liveRateCurrent': 'liveRate'
             };
 
-            console.log('Attempting to update prices:', newPrices);
-
-            // Save prices to Firebase
-            const pricesRef = ref(database, 'prices');
-            set(pricesRef, newPrices)
-                .then(() => {
-                    console.log('Prices successfully saved to Firebase');
-                    currentPrices = newPrices;
-                    
-                    // Update summary
-                    updatePriceSummary(oldPrices, newPrices);
-                    
-                    alert('Prices updated successfully!');
-                })
-                .catch((error) => {
-                    console.error("Error updating prices:", error);
-                    alert("Error updating prices. Please try again.");
-                });
-        }
-
-        // Update price summary
-        function updatePriceSummary(oldPrices, newPrices) {
-            const items = ['withSkin', 'skinless', 'eggs', 'liveRate'];
-            
-            items.forEach(item => {
-                const currentElement = document.getElementById(`${item}Current`);
-                const changeElement = document.getElementById(`${item}Change`);
-                
-                const oldPrice = parseFloat(oldPrices[`${item}Price`]);
-                const newPrice = parseFloat(newPrices[`${item}Price`]);
-                const change = newPrice - oldPrice;
-                
-                currentElement.textContent = formatPrice(newPrice, item === 'eggs' ? '' : '/kg');
-                
-                if (change !== 0) {
-                    const changeText = change > 0 ? `↑ ${formatPrice(change)}` : `↓ ${formatPrice(Math.abs(change))}`;
-                    changeElement.textContent = changeText;
-                    changeElement.className = `change-indicator ${change > 0 ? 'increase' : 'decrease'}`;
-                } else {
-                    changeElement.textContent = '';
-                    changeElement.className = 'change-indicator';
+            for (const [elementId, priceKey] of Object.entries(priceElements)) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    const price = newPrices[priceKey];
+                    const unit = priceKey === 'eggsPrice' ? '' : '/kg';
+                    element.textContent = formatPrice(price, unit);
                 }
-            });
+            }
         }
 
-        // Logout functionality
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            localStorage.removeItem('adminLoggedIn');
-            window.location.href = 'admin-login.html';
-        });
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Page loaded, initializing...");
+            loadCurrentPrices();
 
-        // Load prices when page loads
-        document.addEventListener('DOMContentLoaded', loadCurrentPrices);
+            // Add form submit handler
+            const priceUpdateForm = document.getElementById('priceUpdateForm');
+            if (priceUpdateForm) {
+                priceUpdateForm.addEventListener('submit', updatePrices);
+            }
+
+            // Add logout handler
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async function() {
+                    try {
+                        await signOut(auth);
+                        window.location.href = 'admin-login.html';
+                    } catch (error) {
+                        console.error('Error signing out:', error);
+                        alert('Error signing out. Please try again.');
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html> 
