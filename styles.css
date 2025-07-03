@@ -968,9 +968,10 @@ main {
     padding-top: 3.5rem;
 }
 
-.submit-btn {
+.submit-btn, .submit-btn:visited, .submit-btn:active {
+    text-decoration: none !important;
+    color: #fff !important;
     background: var(--gradient);
-    color: var(--white);
     padding: 1rem 2rem;
     border: none;
     border-radius: 5px;
@@ -988,50 +989,18 @@ main {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+.submit-btn.back-btn {
+    background: var(--secondary-color) !important;
+    color: #fff !important;
+}
+
+.submit-btn.back-btn:hover {
+    background: #1b2d3a !important;
+}
+
 .submit-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.submit-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.submit-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: 0.5s;
-}
-
-.submit-btn:hover::before {
-    left: 100%;
-}
-
-.submit-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-.submit-btn:disabled:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-.submit-btn:disabled::before {
-    display: none;
 }
 
 /* Admin Styles */
