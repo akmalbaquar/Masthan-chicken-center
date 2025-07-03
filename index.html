@@ -9,25 +9,26 @@
     <link rel="icon" type="image/jpeg" href="images/MBPT LOGO.jpeg">
 </head>
 
-
-<nav class="navbar" id="mainNav">
-    <button class="nav-toggle" aria-label="Toggle navigation">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </button>
-    <ul class="nav-menu">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#prices">Menu</a></li>
-        <li><a href="#features">About Us</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="admin-login.html" class="login-btn">Admin Login</a></li>
-    </ul>
-</nav>
-
 <body>
     <div class="scroll-progress"></div>
-    
+    <nav class="navbar">
+        <div class="navbar-container">
+            <button class="navbar-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="navbar-menu">
+                <a href="#home" class="active">Home</a>
+                <a href="#prices">Menu</a>
+                <a href="#features">About Us</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="user-info">
+                <a href="admin-login.html" class="login-btn">Admin Login</a>
+            </div>
+        </div>
+    </nav>
     <header class="hero">
         <div class="hero-content">
             <h1 class="section-title reveal active">Mastan Broiler Poultry Traders</h1>
@@ -318,8 +319,8 @@
         }
 
         // Mobile Navigation Toggle
-        const navToggle = document.querySelector('.nav-toggle');
-        const navMenu = document.querySelector('.nav-menu');
+        const navToggle = document.querySelector('.navbar-toggle');
+        const navMenu = document.querySelector('.navbar-menu');
 
         if (navToggle && navMenu) {
             navToggle.addEventListener('click', () => {
