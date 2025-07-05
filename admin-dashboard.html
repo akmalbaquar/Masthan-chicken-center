@@ -4,102 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Masthan Brailour Poultry Traders</title>
+x`    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LCCQZS6Q1V"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LCCQZS6Q1V');
+    </script>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GT-P8ZTRPZM');</script>
+    <link rel="stylesheet" href="css/shared.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/jpeg" href="images/MBPT LOGO.jpeg">
-
-    <!-- Add Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <style>
-        .navbar {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 1000;
-        }
-
-        .nav-brand a {
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 1.5rem;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .admin-dashboard {
-            padding-top: 1rem;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            padding: 1rem;
-        }
-
-        .summary-cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .summary-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .price-management {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .price-inputs-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GT-P8ZTRPZM"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <div class="admin-dashboard">
         <header class="admin-header">
             <h1>Admin Dashboard</h1>
@@ -172,161 +104,6 @@
         </main>
     </div>
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAefiwRw1-CGmKPpBzhs1kveUPdc82UWAU",
-            authDomain: "masthan-prices.firebaseapp.com",
-            databaseURL: "https://masthan-prices-default-rtdb.firebaseio.com",
-            projectId: "masthan-prices",
-            storageBucket: "masthan-prices.firebasestorage.app",
-            messagingSenderId: "879026480403",
-            appId: "1:879026480403:web:1abbf69da8ef379ccd26e6",
-            measurementId: "G-LCCQZS6Q1V"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const database = getDatabase(app);
-        const auth = getAuth(app);
-
-        console.log("Firebase initialized in admin dashboard");
-
-        // Price variables
-        let currentPrices = {
-            withSkinPrice: 180,
-            skinlessPrice: 220,
-            eggsPrice: 579,
-            liveRate: 100
-        };
-
-        // Function to format price with currency symbol
-        function formatPrice(price, unit = '') {
-            return `₹${price}${unit}`;
-        }
-
-        // Load current prices from Firebase
-        function loadCurrentPrices() {
-            console.log("Loading current prices from Firebase...");
-            const pricesRef = ref(database, 'prices');
-            onValue(pricesRef, (snapshot) => {
-                const prices = snapshot.val() || currentPrices;
-                console.log("Received prices from Firebase:", prices);
-                currentPrices = prices;
-
-                document.getElementById('withSkinPrice').value = currentPrices.withSkinPrice;
-                document.getElementById('skinlessPrice').value = currentPrices.skinlessPrice;
-                document.getElementById('eggsPrice').value = currentPrices.eggsPrice;
-                document.getElementById('liveRate').value = currentPrices.liveRate;
-
-                // Update summary display
-                updatePriceSummary(currentPrices, currentPrices);
-            });
-        }
-
-        // Update prices in Firebase
-        async function updatePrices(event) {
-            event.preventDefault();
-            
-            try {
-                // Check if user is authenticated
-                const user = auth.currentUser;
-                if (!user) {
-                    throw new Error('User not authenticated');
-                }
-
-                const oldPrices = { ...currentPrices };
-                
-                const newPrices = {
-                    withSkinPrice: parseFloat(document.getElementById('withSkinPrice').value),
-                    skinlessPrice: parseFloat(document.getElementById('skinlessPrice').value),
-                    eggsPrice: parseFloat(document.getElementById('eggsPrice').value),
-                    liveRate: parseFloat(document.getElementById('liveRate').value),
-                    lastUpdated: new Date().toISOString(),
-                    updatedBy: user.email
-                };
-
-                console.log('Attempting to update prices:', newPrices);
-
-                // Update Firebase with authentication token
-                const pricesRef = ref(database, 'prices');
-                await set(pricesRef, newPrices);
-                
-                // Update local state
-                currentPrices = newPrices;
-                
-                // Show success message
-                alert('Prices updated successfully!');
-                
-                // Update summary display
-                updatePriceSummary(oldPrices, newPrices);
-            } catch (error) {
-                console.error('Error updating prices:', error);
-                if (error.message === 'User not authenticated') {
-                    alert('Your session has expired. Please log in again.');
-                    window.location.href = 'admin-login.html';
-                } else {
-                    alert('Error updating prices. Please try again.');
-                }
-            }
-        }
-
-        // Function to update price summary display
-        function updatePriceSummary(oldPrices, newPrices) {
-            const priceElements = {
-                'withSkinCurrent': 'withSkinPrice',
-                'skinlessCurrent': 'skinlessPrice',
-                'eggsCurrent': 'eggsPrice',
-                'liveRateCurrent': 'liveRate'
-            };
-
-            for (const [elementId, priceKey] of Object.entries(priceElements)) {
-                const element = document.getElementById(elementId);
-                if (element) {
-                    const price = newPrices[priceKey];
-                    const unit = priceKey === 'eggsPrice' ? '' : '/kg';
-                    element.textContent = formatPrice(price, unit);
-                }
-            }
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("Page loaded, initializing...");
-            
-            // Check authentication state
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is signed in, load prices
-                    loadCurrentPrices();
-                } else {
-                    // No user is signed in, redirect to login
-                    window.location.href = 'admin-login.html';
-                }
-            });
-
-            // Add form submit handler
-            const priceUpdateForm = document.getElementById('priceUpdateForm');
-            if (priceUpdateForm) {
-                priceUpdateForm.addEventListener('submit', updatePrices);
-            }
-
-            // Add logout handler
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', async () => {
-                    await signOut(auth);
-                    window.location.href = "index.html";
-                });
-            }
-        });
-    </script>
+    <script type="module" src="js/admin-dashboard.js"></script>
 </body>
 </html> 

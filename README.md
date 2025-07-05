@@ -1,75 +1,88 @@
-# Masthan Brailour Poultry Traders Website
+# Mastan Broiler Poultry Traders
 
-A modern and responsive website for Masthan Brailour Poultry Traders, featuring an admin dashboard for price management.
+A modern web application for displaying and managing poultry product prices with real-time updates using Firebase.
 
 ## Project Structure
 
 ```
-masthan-chicken-center/
-├── index.html          # index customer-facing page
-├── admin-login.html       # Admin login page
-├── admin-dashboard.html   # Admin dashboard for price management
-├── styles.css            # Global styles
-└── README.md             # Project documentation
+Masthan-chicken-center/
+├── index.html              # Main landing page
+├── admin-login.html        # Admin authentication page
+├── admin-dashboard.html    # Admin price management dashboard
+├── styles.css              # Main stylesheet (legacy)
+├── css/
+│   ├── shared.css          # Common styles across all pages
+│   ├── main.css            # Main page specific styles
+│   ├── admin-dashboard.css # Admin dashboard specific styles
+│   └── admin-login.css     # Admin login specific styles
+├── js/
+│   ├── config.js           # Shared Firebase configuration
+│   ├── main.js             # Main page JavaScript functionality
+│   ├── admin-dashboard.js  # Admin dashboard JavaScript
+│   └── admin-login.js      # Admin login JavaScript
+├── images/                 # Product images
+└── README.md              # This file
 ```
 
 ## Features
 
-### Main Page
-- Responsive navigation bar
-- Hero section with business information
-- Price display section
-- Features section
-- Contact information
-- Smooth scrolling navigation
-- Mobile-friendly design
+### Main Page (index.html)
+- **Real-time Price Display**: Shows current prices for chicken products and eggs
+- **Responsive Design**: Mobile-friendly interface
+- **Scroll Animations**: Smooth reveal animations for content
+- **Progress Indicator**: Visual scroll progress bar
+- **Back to Top**: Easy navigation button
 
-### Admin Dashboard
-- Secure login system
-- Price management interface
-- Real-time price updates
-- Price history tracking
-- Responsive design
-- Logout functionality
+### Admin Dashboard (admin-dashboard.html)
+- **Price Management**: Update product prices in real-time
+- **Live Price Summary**: View current prices at a glance
+- **Firebase Integration**: Secure data storage and synchronization
+- **Authentication**: Protected admin access
+
+### Admin Login (admin-login.html)
+- **Secure Authentication**: Firebase Auth integration
+- **Session Management**: Automatic login state handling
+- **Error Handling**: User-friendly error messages
+
+## Technical Stack
+
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Backend**: Firebase (Authentication, Realtime Database)
+- **Styling**: Custom CSS with responsive design
+- **Fonts**: Google Fonts (Poppins)
+
+## File Organization
+
+### CSS Files
+- `styles.css`: Main stylesheet (legacy - kept for compatibility)
+- `css/shared.css`: Common styles, variables, and utilities used across all pages
+- `css/main.css`: Main page specific styles (hero, navigation, prices, features, contact)
+- `css/admin-dashboard.css`: Admin dashboard specific styles
+- `css/admin-login.css`: Admin login page specific styles
+
+### JavaScript Files
+- `js/config.js`: Shared Firebase configuration and utility functions
+- `js/main.js`: Main page functionality (price display, animations, navigation)
+- `js/admin-dashboard.js`: Admin dashboard functionality (price management, authentication)
+- `js/admin-login.js`: Login page functionality (authentication handling)
+
+## Firebase Configuration
+
+The application uses Firebase for:
+- **Authentication**: Secure admin login
+- **Realtime Database**: Live price updates
+- **Analytics**: Usage tracking
+
+Configuration is centralized in `js/config.js` for easy maintenance.
 
 ## Setup Instructions
 
-1. Clone the repository:
-```bash
-git clone [repository-url]
-```
+1. Clone or download the project files
+2. Open `index.html` in a web browser
+3. For admin access, navigate to the admin login page
+4. Use Firebase authentication credentials
 
-2. Open the project in your preferred code editor.
-
-3. To run the website locally:
-   - Open `mainpage.html` in a web browser
-   - For admin access, use `admin-login.html`
-
-## Admin Access
-
-1. Navigate to `admin-login.html`
-2. Use the following credentials:
-   - Username: admin
-   - Password: admin123
-
-## Price Management
-
-The admin dashboard allows you to:
-- Update chicken prices (with skin and skinless)
-- Set egg prices
-- Update live chicken rates
-- View price history
-- All changes are saved in local storage
-
-## Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript
-- Local Storage for data persistence
-- Google Fonts (Poppins)
-
-## Browser Support
+## Browser Compatibility
 
 - Chrome (recommended)
 - Firefox
@@ -78,26 +91,31 @@ The admin dashboard allows you to:
 
 ## Responsive Design
 
-The website is fully responsive and works on:
+The application is fully responsive and works on:
 - Desktop computers
 - Tablets
 - Mobile phones
 
-## Features in Detail
+## Security Features
 
-### Main Page Features
-- Modern and clean design
-- Easy navigation
-- Clear price display
-- Contact information
-- Business features showcase
+- Firebase Authentication for admin access
+- Secure data transmission
+- Input validation
+- Session management
 
-### Admin Features
-- Secure login system
-- Price management
-- Price history tracking
-- Real-time updates
-- Mobile-friendly interface
+## Performance Optimizations
+
+- Separated CSS and JavaScript files for better caching
+- Modular JavaScript architecture
+- Optimized images
+- Minimal external dependencies
+
+## Maintenance
+
+- Update prices through the admin dashboard
+- Monitor Firebase console for usage analytics
+- Regular backup of Firebase data
+- Keep Firebase SDK versions updated
 
 ## Contributing
 

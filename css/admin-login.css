@@ -1,0 +1,229 @@
+/* Admin Login Styles */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient);
+    padding: 1rem;
+}
+
+.login-box {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(42, 157, 143, 0.1),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.login-box:hover::before {
+    left: 100%;
+}
+
+.login-box h1 {
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+    position: relative;
+}
+
+.login-box h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: var(--gradient);
+    border-radius: 2px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--light-bg);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--white);
+    color: var(--text-color);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-group input::placeholder {
+    color: #a0a0a0;
+}
+
+.submit-btn {
+    background: var(--gradient);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.submit-btn:hover::before {
+    left: 100%;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(42, 157, 143, 0.3);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.back-btn {
+    background: var(--secondary-color) !important;
+    color: var(--white) !important;
+}
+
+.back-btn:hover {
+    background: #1b2d3a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(38, 70, 83, 0.3);
+}
+
+.error-message {
+    color: var(--error-color);
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: rgba(231, 76, 60, 0.1);
+    font-size: 0.9rem;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .login-box h1 {
+        font-size: 1.8rem;
+    }
+
+    .form-group input {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.95rem;
+    }
+
+    .submit-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 0.5rem;
+    }
+
+    .login-box {
+        padding: 1.5rem;
+    }
+
+    .login-box h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .submit-btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+} 
