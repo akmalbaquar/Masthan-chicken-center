@@ -104,7 +104,7 @@
         <header class="admin-header">
             <h1>Admin Dashboard</h1>
             <div class="header-actions">
-                <a href="index.html" class="logout-btn" aria-label="Logout" style="text-decoration:none;">Logout</a>
+                <button type="button" id="logoutBtn" class="logout-btn" aria-label="Logout">Logout</button>
             </div>
         </header>
 
@@ -321,14 +321,9 @@
             // Add logout handler
             const logoutBtn = document.getElementById('logoutBtn');
             if (logoutBtn) {
-                logoutBtn.addEventListener('click', async function() {
-                    try {
-                        await signOut(auth);
-                        window.location.href = 'admin-login.html';
-                    } catch (error) {
-                        console.error('Error signing out:', error);
-                        alert('Error signing out. Please try again.');
-                    }
+                logoutBtn.addEventListener('click', async () => {
+                    await signOut(auth);
+                    window.location.href = "index.html";
                 });
             }
         });
