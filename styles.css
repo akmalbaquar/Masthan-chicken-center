@@ -533,6 +533,43 @@ header h1 {
     transform: scale(1.02);
 }
 
+/* Map loading and error handling */
+.map-container iframe {
+    min-height: 300px;
+}
+
+.map-container iframe:not([src]) {
+    background: var(--light-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    font-style: italic;
+}
+
+/* Fallback for when map fails to load */
+.map-container::before {
+    content: "📍 Masthan Broiler Poultry Traders";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-weight: 600;
+    color: var(--text-color);
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.map-container:has(iframe:not([src]))::before {
+    opacity: 1;
+}
+
 footer {
     background-color: var(--secondary-color);
     color: var(--white);
